@@ -1,24 +1,106 @@
 ﻿
 
+using CoreApp;
+using DataAccess.CRUD;
 using DataAccess.DAO;
+using DTOs;
+using Newtonsoft.Json;
+using System;
 
 public class Program{
     
     public static void Main(string[] args)
     {
+
+        Console.WriteLine("Seleccione la opcion deseada");
+        Console.WriteLine("1.Crear usuario");
+        Console.WriteLine("2.Consultar usuarios");
+        Console.WriteLine("3.Actualizar usuarios");
+        Console.WriteLine("4.Eliminar usuarios");
+        Console.WriteLine("5.Crear peliculas");
+        Console.WriteLine("6.Consultar peliculas");
+        Console.WriteLine("7.Actualizar peliculas");
+        Console.WriteLine("8.Eliminar peliculas");
+
+        var option=Int32.Parse(Console.ReadLine());
         var sqlOperation = new SQLOperation();
-        sqlOperation.ProcedureName = "CRE_USER_PR";
 
-        sqlOperation.AddStringParameter("P_UserCode", "friveram");
-        sqlOperation.AddStringParameter("P_Name", "Fabiola");
-        sqlOperation.AddStringParameter("P_Email", "friveram@ucenfotec.ac.cr");
-        sqlOperation.AddStringParameter("P_Password", "Fabiola123!");
-        sqlOperation.AddStringParameter("P_Status", "AC");
-        sqlOperation.AddDateTimeParam("P_BirthDate",DateTime.Now);
+        switch (option)
+        {
+            case 1:
+                Console.WriteLine("Digite el codigo de usuario");
+                var UserCode=Console.ReadLine();
 
-        var sqlDao = SQLDao.GetInstance();
+                Console.WriteLine("Digite el codigo de nombre");
+                var name = Console.ReadLine();
 
-        sqlDao.ExecuteProcedure (sqlOperation);
+                Console.WriteLine("Digite el codigo de email");
+                var email = Console.ReadLine();
+
+                Console.WriteLine("Digite el codigo de password");
+                var password = Console.ReadLine();
+
+                var status = "AC";
+
+                Console.WriteLine("Digite la fecha de nacimiento");
+                var bdate = DateTime.Parse(Console.ReadLine());
+                
+                //Creamos el objeto del usuario a partir de los valores capturados en consola
+                var user = new User()
+                {
+                    UserCode = UserCode,
+                    Name = name,
+                    Email = email,
+                    Password = password,
+                    Status = status,
+                    BirthDate = bdate
+                };
+
+                var um = new UserManager();
+                um.Create(user);
+
+             break;
+             /*case 2: 
+                    uCrud=new UserCrudFactory();
+                    var listUsers = uCrud.RetrieveAll<User>();
+                    foreach(var u in listUser)
+                {
+                    Console.WriteLine(JsonConvert.SerializeObject(u));
+                }
+              */ break;
+
+            case 5:
+                Console.WriteLine("Digite el titulo");
+                var title = Console.ReadLine();
+
+                Console.WriteLine("Digite la descripcion");
+                var description = Console.ReadLine();
+
+                Console.WriteLine("Digite la fecha la lanzamiento");
+                var rDate = DateTime.Parse(Console.ReadLine());
+
+                Console.WriteLine("Digite el genero de la pelicula");
+                var genrre = Console.ReadLine();
+
+                Console.WriteLine("Digite el director");
+                var director = Console.ReadLine();
+
+                sqlOperation.ProcedureName = "CRE_MOVIE_PR";
+
+                sqlOperation.AddStringParameter("P_Title", title);
+                sqlOperation.AddStringParameter("P_Description", description);
+                sqlOperation.AddDateTimeParam("P_ReleaseDate", rDate);
+                sqlOperation.AddStringParameter("P_Genre", genrre);
+                sqlOperation.AddStringParameter("P_Director", director);
+
+                break;
+
+        
+        }
+
+        //var sqlDao = SQLDao.GetInstance();
+
+        //sqlDao.ExecuteProcedure (sqlOperation);
         
     }
 

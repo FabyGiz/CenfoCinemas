@@ -41,10 +41,13 @@ namespace DataAccess.DAO
         }
 
         //Metodo para la ejecucion de SP (Store Procedure) sin retorno
-        public void ExecuteProcedure(SQLOperation sqlOperation){
-            //Conectarse a la base de datos
-            //Ejecutar SP
+        public List<Dictionary<string, object>> ExecuteQueryProcedure(SQLOperation sqlOperation)
+        {
+
+            var lstResults = new List<Dictionary<string, object>>();
+
             using (var conn = new SqlConnection(_connectionString))
+
             {
                 using (var command = new SqlCommand(sqlOperation.ProcedureName, conn)
                 {
@@ -58,14 +61,44 @@ namespace DataAccess.DAO
                     }
                     //Ejectura el SP
                     conn.Open();
-                    command.ExecuteNonQuery();
-                }
 
+                    //de aca en adelante la implementacion es distinta con respecto al procedure anterior
+                    // sentencia que ejectua el SP y captura el resultado
+                    var reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+
+                            var rowDict = new Dictionary<string, object>();
+
+                            for (var index = 0; index < reader.FieldCount; index++)
+                            {
+                                var key = reader.GetName(index);
+                                var value = reader.GetValue(index);
+                                //aca agregamos los valores al diccionario de esta fila
+                                rowDict[key] = value;
+                            }
+                            lstResults.Add(rowDict);
+                        }
+                    }
+
+                }
             }
+
+            return lstResults;
         }
 
-        //Metodo para la ejecucion de SP con retorno de data
-        public List<Dictionary<string,object>> ExecuteQueryProcedure(SQLOperation operation)
+        internal void ExecuteProcedure(SQLOperation sqlOperation)
+        {
+            throw new NotImplementedException();
+        }
+    }
+}
+
+//Metodo para la ejecucion de SP con retorno de data
+public List<Dictionary<string,object>> ExecuteQueryProcedure(SQLOperation operation)
         {
 
             //Conectar a la base de dato
