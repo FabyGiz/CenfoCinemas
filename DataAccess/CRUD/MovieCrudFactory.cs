@@ -29,6 +29,16 @@ namespace DataAccess.CRUD
 
         public override void Delete(BaseDTO baseDTO)
         {
+            var movies = baseDTO as Movies;
+
+            var sqlOperation = new SQLOperation() {ProcedureName = "DEL_MOVIE_PR"};
+            sqlOperation.AddIntParam("P_Id", movies.Id);
+
+            _sqlDao.ExecuteProcedure(sqlOperation);
+        }
+
+        public override T Retrieve<T>()
+        {
             throw new NotImplementedException();
         }
 
@@ -40,7 +50,7 @@ namespace DataAccess.CRUD
 
             var lstResults = _sqlDao.ExecuteQueryProcedure(sqlOperation);
 
-            if(lstResults.Count > 0)
+            if(lstResults != null)
             {
                 foreach(var row in lstResults){
 
@@ -58,12 +68,10 @@ namespace DataAccess.CRUD
 
             var lstResults = _sqlDao.ExecuteQueryProcedure(sqlOperation);
 
-            if (lstResults.Count > 0)
+            if (lstResults != null && lstResults.Count > 0 )
             {
                 var row = lstResults[0];
-                var movies = BuildMovies(row);
-
-                return (T)Convert.ChangeType(movies, typeof(T));
+                return (T)Convert.ChangeType(BuildMovies(row), typeof(T));
 
             }
 
@@ -87,14 +95,20 @@ namespace DataAccess.CRUD
             return default(T);
         }
 
-        public override T Retrievw<T>()
-        {
-            throw new NotImplementedException();
-        }
-
         public override void Update(BaseDTO baseDTO)
         {
-            throw new NotImplementedException();
+            var movie = baseDTO as Movies;
+
+            var sqlOperation = new SQLOperation() { ProcedureName = "UPD_MOVIES_PR" };
+
+            sqlOperation.AddIntParam("P_Id", movie.Id);
+            sqlOperation.AddStringParameter("P_Title", movie.Title);
+            sqlOperation.AddStringParameter("P_Description", movie.Description);
+            sqlOperation.AddDateTimeParam("P_ReleaseDate", movie.RelaseDate);
+            sqlOperation.AddStringParameter("P_Genre", movie.Genre);
+            sqlOperation.AddStringParameter("P_Director", movie.Director);
+
+            _sqlDao.ExecuteProcedure(sqlOperation);
         }
 
         private Movies BuildMovies(Dictionary<string, object> row)

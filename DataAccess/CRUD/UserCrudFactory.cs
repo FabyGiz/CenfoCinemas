@@ -103,7 +103,7 @@ namespace DataAccess.CRUD
         }
         
 
-        public override T Retrievw<T>()
+        public override T Retrieve<T>()
         {
             throw new NotImplementedException();
         }

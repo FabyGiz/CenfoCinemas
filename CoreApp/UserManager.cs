@@ -20,7 +20,7 @@ namespace CoreApp
          * Valida que el correo electronico no este registrado
          * Envia un correo electronico de bienvenida 
          */
-        public void Create(User user)
+        public void Create (User user)
         {
             try
             {

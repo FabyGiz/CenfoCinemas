@@ -2,6 +2,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,89 +31,106 @@ namespace DataAccess.DAO
         {
             _connectionString = @"Data Source=srv-slqdatabase-frivera.database.windows.net;Initial Catalog=cenfocinemas-db;User ID=sysman;Password=Cenfotec123!;Trust Server Certificate=True";
         }
-        
+
         //Paso 3: Definir el metodo que expone la instancia
+
         public static SQLDao GetInstance()
         {
+            //Si la isntancia es nula, crear una nueva instancia
             if (_instance == null)
             {
                 _instance = new SQLDao();
             }
+            //Retornar la instancia
             return _instance;
         }
 
-        //Metodo para la ejecucion de SP (Store Procedure) sin retorno
-        public List<Dictionary<string, object>> ExecuteQueryProcedure(SQLOperation sqlOperation)
+        //Metodo para la ejecucion de Store Procedure sin retorno
+
+        public void ExecuteProcedure(SQLOperation sQLOperation)
         {
-
-            var lstResults = new List<Dictionary<string, object>>();
-
+            //Conectarse a la base de datos
+            //Ejecutar el SP
             using (var conn = new SqlConnection(_connectionString))
-
             {
-                using (var command = new SqlCommand(sqlOperation.ProcedureName, conn)
+                using (var command = new SqlCommand(sQLOperation.ProcedureName, conn)
                 {
                     CommandType = System.Data.CommandType.StoredProcedure
                 })
                 {
                     //Set de los parametros
-                    foreach (var param in sqlOperation.Parameters)
+                    foreach (var param in sQLOperation.Parameters)
                     {
                         command.Parameters.Add(param);
                     }
-                    //Ejectura el SP
+                    //Ejecuta el SP
                     conn.Open();
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
+        //Metodo para la ejecucion de Store Procedure con retorno
+        public List<Dictionary<string, object>> ExecuteQueryProcedure(SQLOperation sQLOperation)
+        {
+            var lstResults = new List<Dictionary<string, object>>();
+
+            using (var conn = new SqlConnection(_connectionString))
+
+            {
+                using (var command = new SqlCommand(sQLOperation.ProcedureName, conn)
+                {
+                    CommandType = System.Data.CommandType.StoredProcedure
+                })
+                {
+                    //Set de los parametros
+                    foreach (var param in sQLOperation.Parameters)
+                    {
+                        command.Parameters.Add(param);
+                    }
+
+                    //Ejecuta el SP
+                    conn.Open ();
 
                     //de aca en adelante la implementacion es distinta con respecto al procedure anterior
-                    // sentencia que ejectua el SP y captura el resultado
+                    //sentencia que ejecuta el SP y captura el resultado
+
                     var reader = command.ExecuteReader();
 
-                    if (reader.HasRows)
+                    if(reader.HasRows)
                     {
                         while (reader.Read())
                         {
-
-                            var rowDict = new Dictionary<string, object>();
+                            var rowDic = new Dictionary<string, object>();
 
                             for (var index = 0; index < reader.FieldCount; index++)
                             {
                                 var key = reader.GetName(index);
                                 var value = reader.GetValue(index);
+
                                 //aca agregamos los valores al diccionario de esta fila
-                                rowDict[key] = value;
+                                rowDic[key] = value;
                             }
-                            lstResults.Add(rowDict);
+                            lstResults.Add(rowDic);
                         }
                     }
-
                 }
             }
-
-            return lstResults;
+        return lstResults;
+        
         }
 
-        internal void ExecuteProcedure(SQLOperation sqlOperation)
-        {
-            throw new NotImplementedException();
-        }
+
+
     }
 }
 
-//Metodo para la ejecucion de SP con retorno de data
-public List<Dictionary<string,object>> ExecuteQueryProcedure(SQLOperation operation)
-        {
 
-            //Conectar a la base de dato
-            //Ejecutar el SP
-            //Capturar el resultado
-            //Convertirlo en DTOs
-            var list = new List<Dictionary< string, object>> ();
 
-            return list; 
-        }
- 
 
-        }
-       
-    }
+
+
+
+
+
 

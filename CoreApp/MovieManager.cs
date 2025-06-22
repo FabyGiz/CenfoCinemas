@@ -3,6 +3,8 @@ using DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Net.WebSockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -20,58 +22,75 @@ namespace CoreApp
         {
             try
             {
-                {
-                    var mCrud = new MoviesCrudFactory();
+                
+                    var mCrud = new MovieCrudFactory();
 
                     //Consultamos en la bd si existe un titulo con ese codigo
-                    var mExist = mCrud.RetrieveByUserCode<Movies>(movies);
+                    var mExist = mCrud.RetrieveByTitle<Movies>(movies);
 
                     if (mExist == null)
                     {
+                        mCrud.Create(movies);
 
-                        //Consultamos si en la bd existe un usuario con ese email.
-                        mExist = mCrud.RetrieveByEmail<Movies>(movies);
+                        var uCrud = new MovieCrudFactory();
+                        //var userEmails = uCrud.RetrieveAll<User>().Select(u  => u.Email).ToList();
 
-                        if (uExist == null)
-                        {
-                            uCrud.Create(user);
-                            //AHORA SIGUE EL ENVIO DEL CORREO
-                        }
-                        else
-                        {
-                            throw new Exception("Este correo electronico ya se encuentra registrado");
-                        }
-
+                        //var emailService = new EmailService();
+                        //emailService.EmailNewMovie(movies.Title, userEmails);
                     }
                     else
                     {
-                        throw new Exception("El codigo de usuario no esta disponible");
+                        throw new Exception("El titulo de la pelicula ya se encuentra registrado");
                     }
-                }
-                else
-                {
-                    throw new Exception("Usuario no cumple con la edad minima");
-                }
+                
+            }
 
+            catch (Exception ex)
+                 {
+                ManagerExeception(ex);
+                 }
+        }   
+
+            public List<Movies> RetrieveAll()
+        {
+            var mCrud = new MovieCrudFactory();
+            return mCrud.RetrieveAll<Movies>();
+        }
+
+        public Movies RetrievebyId(int id)
+        {
+            var mCrud = new MovieCrudFactory();
+            var movies = mCrud.RetrieveById<Movies>(id);
+            return movies;
+        }
+
+        public void Update (Movies movies)
+        {
+            try
+            {
+                var mCrud = new MovieCrudFactory(); 
+                mCrud.Update(movies);
             }
             catch (Exception ex)
+            { 
+                ManagerExeception(ex);
+            }
+        }
+
+        public void Delete (int id)
+        {
+            try
+            {
+                var movies = new Movies { Id = id };
+                var mCrud = new MovieCrudFactory();
+                mCrud.Delete(movies);
+            }
+            catch(Exception ex)
             {
                 ManagerExeception(ex);
             }
         }
-        private bool IsOver18(User user)
-        {
-
-            var currentDate = DateTime.Now;
-            int age = currentDate.Year - user.BirthDate.Year;
-
-            if (user.BirthDate > currentDate.AddYears(-age).Date)
-            {
-                age--;
-            }
-            return age >= 18;
-
-        }
     }
+}
 
 

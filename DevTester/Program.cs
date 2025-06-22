@@ -57,7 +57,7 @@ public class Program{
                 };
 
                 var um = new UserManager();
-                um.Create(user);
+                um.Create (user);
 
              break;
              /*case 2: 
