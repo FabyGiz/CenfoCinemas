@@ -17,7 +17,7 @@ namespace DataAccess.CRUD
         {
             var movies = baseDTO as Movies;
 
-            var sqlOperation = new SQLOperation() { ProcedureName = "CRE_MOVIES_PR" };
+            var sqlOperation = new SQLOperation() { ProcedureName = "CRE_MOVIE_PR" };
             sqlOperation.AddStringParameter("P_Title", movies.Title);
             sqlOperation.AddStringParameter("P_Description", movies.Description);
             sqlOperation.AddDateTimeParam("P_ReleaseDate",movies.RelaseDate);
@@ -80,7 +80,7 @@ namespace DataAccess.CRUD
 
         public T RetrieveByTitle<T>(Movies movies)
         {
-            var sqlOperation = new SQLOperation() { ProcedureName = "RET_MOVIE_BY_TITLE_PR" };
+            var sqlOperation = new SQLOperation() { ProcedureName = "RET_MOVIES_BY_TITLE_PR" };
             sqlOperation.AddStringParameter("P_TITLE", movies.Title);
 
             var lstResults = _sqlDao.ExecuteQueryProcedure(sqlOperation);
@@ -97,16 +97,16 @@ namespace DataAccess.CRUD
 
         public override void Update(BaseDTO baseDTO)
         {
-            var movie = baseDTO as Movies;
+            var movies = baseDTO as Movies;
 
             var sqlOperation = new SQLOperation() { ProcedureName = "UPD_MOVIES_PR" };
 
-            sqlOperation.AddIntParam("P_Id", movie.Id);
-            sqlOperation.AddStringParameter("P_Title", movie.Title);
-            sqlOperation.AddStringParameter("P_Description", movie.Description);
-            sqlOperation.AddDateTimeParam("P_ReleaseDate", movie.RelaseDate);
-            sqlOperation.AddStringParameter("P_Genre", movie.Genre);
-            sqlOperation.AddStringParameter("P_Director", movie.Director);
+            sqlOperation.AddIntParam("P_Id", movies.Id);
+            sqlOperation.AddStringParameter("P_Title", movies.Title);
+            sqlOperation.AddStringParameter("P_Description", movies.Description);
+            sqlOperation.AddDateTimeParam("P_ReleaseDate", movies.RelaseDate);
+            sqlOperation.AddStringParameter("P_Genre", movies.Genre);
+            sqlOperation.AddStringParameter("P_Director", movies.Director);
 
             _sqlDao.ExecuteProcedure(sqlOperation);
         }

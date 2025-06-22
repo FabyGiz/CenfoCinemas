@@ -6,6 +6,7 @@ using DataAccess.DAO;
 using DTOs;
 using Newtonsoft.Json;
 using System;
+using System.Diagnostics;
 
 public class Program{
     
@@ -69,6 +70,28 @@ public class Program{
                 }
               */ break;
 
+            case 3: Console.WriteLine("Acrualizar Usuario");
+
+            break;
+
+            case 4:
+                Console.WriteLine("Eliminar Usuario");
+
+                Console.WriteLine("Digite el userCode:");
+                var userCode = Console.ReadLine();
+
+                var user1 = new User
+                {
+                    UserCode = userCode
+                };
+
+                var um1 = new UserManager ();
+                um1.Delete(user1);
+
+                break;
+
+
+
             case 5:
                 Console.WriteLine("Digite el titulo");
                 var title = Console.ReadLine();
@@ -85,13 +108,19 @@ public class Program{
                 Console.WriteLine("Digite el director");
                 var director = Console.ReadLine();
 
-                sqlOperation.ProcedureName = "CRE_MOVIE_PR";
+                //Creamos el objeto de pelicula a partir de los valores capturados en consola
 
-                sqlOperation.AddStringParameter("P_Title", title);
-                sqlOperation.AddStringParameter("P_Description", description);
-                sqlOperation.AddDateTimeParam("P_ReleaseDate", rDate);
-                sqlOperation.AddStringParameter("P_Genre", genrre);
-                sqlOperation.AddStringParameter("P_Director", director);
+                var movies = new Movies()
+                {
+                    Title = title,
+                    Description = description,
+                    RelaseDate = rDate,
+                    Genre = genrre,
+                    Director = director
+                };
+
+                var mm = new MovieManager();
+                mm.Create (movies);
 
                 break;
 

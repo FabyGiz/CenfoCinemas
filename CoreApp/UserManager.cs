@@ -75,6 +75,22 @@ namespace CoreApp
             return age >= 18;
                 
             }
+        
+          
+
+        public void Delete(User user)
+        {
+            try
+            {
+                var mCrud = new UserCrudFactory();
+                mCrud.Delete(user);
+            }
+            catch (Exception ex)
+            {
+                ManagerExeception(ex);
+            }
         }
     }
+
+}
 

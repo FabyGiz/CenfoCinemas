@@ -22,10 +22,9 @@ namespace CoreApp
         {
             try
             {
-                
-                    var mCrud = new MovieCrudFactory();
 
-                    //Consultamos en la bd si existe un titulo con ese codigo
+                //Consultamos en la bd si existe un titulo con ese codigo
+                    var mCrud = new MovieCrudFactory();
                     var mExist = mCrud.RetrieveByTitle<Movies>(movies);
 
                     if (mExist == null)
