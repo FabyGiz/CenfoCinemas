@@ -124,7 +124,23 @@ public class Program{
 
                 break;
 
-        
+            case 8:
+                Console.WriteLine("Eliminar Pelicula");
+
+                Console.WriteLine("Digite el titulo:");
+                var Title = Console.ReadLine();
+
+                var movies1 = new Movies
+                {
+                    Title = Title
+                };
+
+                var mm1 = new MovieManager();
+                mm1.Delete(movies1);
+
+                break;
+
+
         }
 
         //var sqlDao = SQLDao.GetInstance();

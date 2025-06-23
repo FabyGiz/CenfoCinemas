@@ -76,11 +76,10 @@ namespace CoreApp
             }
         }
 
-        public void Delete (int id)
+        public void Delete (Movies movies)
         {
             try
             {
-                var movies = new Movies { Id = id };
                 var mCrud = new MovieCrudFactory();
                 mCrud.Delete(movies);
             }

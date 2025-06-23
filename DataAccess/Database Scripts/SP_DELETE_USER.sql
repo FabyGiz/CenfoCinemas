@@ -1,9 +1,9 @@
-﻿CREATE PROCEDURE DELETE_USER_PR
-@P_UserCode nvarchar(30)
+﻿CREATE PROCEDURE DELETE_MOVIES_PR
+@P_Title nvarchar(75)
 AS
 BEGIN
-    DELETE FROM TBL_User
-    WHERE UserCode = @P_UserCode
+    DELETE FROM TBL_Movie
+    WHERE Title = @P_Title
 END
 GO
 

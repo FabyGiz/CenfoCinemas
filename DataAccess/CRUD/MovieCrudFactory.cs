@@ -31,8 +31,8 @@ namespace DataAccess.CRUD
         {
             var movies = baseDTO as Movies;
 
-            var sqlOperation = new SQLOperation() {ProcedureName = "DEL_MOVIE_PR"};
-            sqlOperation.AddIntParam("P_Id", movies.Id);
+            var sqlOperation = new SQLOperation() {ProcedureName = "DELETE_MOVIES_PR" };
+            sqlOperation.AddStringParameter("P_Title", movies.Title);
 
             _sqlDao.ExecuteProcedure(sqlOperation);
         }
