@@ -63,7 +63,13 @@ namespace CoreApp
                     ManagerExeception(ex);
                 }
             }
-          private bool IsOver18(User user) {
+
+        public List<User> RetrieveAll()
+        {
+            var uCrud = new UserCrudFactory();
+            return uCrud.RetrieveAll<User>();
+        }
+        private bool IsOver18(User user) {
 
             var currentDate = DateTime.Now;
             int age = currentDate.Year - user.BirthDate.Year;
