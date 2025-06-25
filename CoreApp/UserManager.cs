@@ -70,7 +70,7 @@ namespace CoreApp
             return uCrud.RetrieveAll<User>();
         }
 
-        public User RetrievebyId(int id)
+        public User RetrieveById(int id)
         {
             var uCrud = new UserCrudFactory();
             var user = uCrud.RetrieveById<User>(id);

@@ -49,13 +49,13 @@ namespace WebAPI1.Controllers
 
         [HttpGet]
         [Route("RetrieveById")]
-        public ActionResult RetrivebyId(int id)
+        public ActionResult RetriveById(int id)
         {
             try
             {
 
                 var um = new UserManager();
-                var result = um.RetrievebyId(id);
+                var result = um.RetrieveById(id);
 
                 if (result != null)
                 {
