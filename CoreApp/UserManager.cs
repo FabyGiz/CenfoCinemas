@@ -69,6 +69,45 @@ namespace CoreApp
             var uCrud = new UserCrudFactory();
             return uCrud.RetrieveAll<User>();
         }
+
+        public User RetrievebyId(int id)
+        {
+            var uCrud = new UserCrudFactory();
+            var user = uCrud.RetrieveById<User>(id);
+
+            return user;
+        }
+
+        public User RetrieveByEmail (string email)
+        {
+            var uCrud = new UserCrudFactory();
+            var user = new User { Email = email };
+
+            return uCrud.RetrieveByEmail<User>(user);
+        }
+
+        public User RetrieveByUserCode (string userCode)
+        {
+            var uCrud = new UserCrudFactory();
+            var user = new User { UserCode = userCode };
+
+            return uCrud.RetrieveByUserCode<User>(user);
+        }
+
+        public void Update (User user)
+        {
+            try 
+            {
+                var uCrud = new UserCrudFactory();
+                uCrud.Update(user);
+            }
+            catch (Exception ex)
+            {
+                ManagerExeception(ex);
+            }
+        }
+
+
         private bool IsOver18(User user) {
 
             var currentDate = DateTime.Now;
@@ -84,10 +123,11 @@ namespace CoreApp
         
           
 
-        public void Delete(User user)
+        public void Delete(int id)
         {
             try
             {
+                var user = new User { Id = id};
                 var mCrud = new UserCrudFactory();
                 mCrud.Delete(user);
             }
@@ -95,6 +135,11 @@ namespace CoreApp
             {
                 ManagerExeception(ex);
             }
+        }
+
+        public object RetrieveByUserCode(object userCode)
+        {
+            throw new NotImplementedException();
         }
     }
 

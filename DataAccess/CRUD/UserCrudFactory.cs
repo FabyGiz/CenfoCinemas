@@ -31,7 +31,8 @@ namespace DataAccess.CRUD
             var user = baseDTO as User;
 
             var sqlOperation = new SQLOperation(){ProcedureName = "DELETE_USER_PR"};
-            sqlOperation.AddStringParameter("P_UserCode", user.UserCode);
+            sqlOperation.AddIntParam("P_Id", user.Id);
+
             _sqlDao.ExecuteProcedure(sqlOperation);
         }
 
@@ -62,14 +63,13 @@ namespace DataAccess.CRUD
             var lstResults = _sqlDao.ExecuteQueryProcedure(sqlOperation);
 
             if (lstResults.Count > 0){
-                var row=lstResults[0];
-                var user = BuildUser(row);
 
-                return (T) Convert.ChangeType(user, typeof(T));
+                var user = BuildUser(lstResults[0]);
+                return (T)Convert.ChangeType(user, typeof(T));
 
             }
 
-            return default (T);
+            return default (T); //retorna null sino encuentra el usuario
         }
 
         public T RetrieveByUserCode<T>(User user)
@@ -114,7 +114,19 @@ namespace DataAccess.CRUD
 
         public override void Update(BaseDTO baseDTO)
         {
-            throw new NotImplementedException();
+            var user = baseDTO as User;
+
+            var sqlOperation = new SQLOperation() { ProcedureName = "UPDATE_USER_PR" };
+
+            sqlOperation.AddIntParam("P_Id", user.Id); //buscar por Id
+            sqlOperation.AddStringParameter("P_UserCode", user.UserCode);
+            sqlOperation.AddStringParameter("P_Name", user.Name);
+            sqlOperation.AddStringParameter("P_Email", user.Email);
+            sqlOperation.AddStringParameter("P_Password", user.Password);
+            sqlOperation.AddStringParameter("P_Status", user.Status);
+            sqlOperation.AddDateTimeParam("P_BirthDate", user.BirthDate);
+
+            _sqlDao.ExecuteProcedure(sqlOperation);
         }
 
         //METODO QUE CONVIERTE EL DICCIONARIO EN UN USUARIO

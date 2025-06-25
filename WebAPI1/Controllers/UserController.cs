@@ -8,14 +8,14 @@ namespace WebAPI1.Controllers
 {
     //Indicamos que la direccion de este controlador
     //sera https://servidor:puerto/api/User
-    [Route("api/[controller]")]  
+    [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
         [HttpPost]
         [Route("Create")]
 
-        public ActionResult Create (User user)
+        public ActionResult Create(User user)
         {
             try
             {
@@ -23,7 +23,7 @@ namespace WebAPI1.Controllers
                 um.Create(user);
                 return Ok(user);
 
-            }catch (Exception ex)
+            } catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
 
@@ -41,7 +41,55 @@ namespace WebAPI1.Controllers
 
                 return Ok(listResult);
 
-            }catch (Exception ex)
+            } catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("RetrieveById")]
+        public ActionResult RetrivebyId(int id)
+        {
+            try
+            {
+
+                var um = new UserManager();
+                var result = um.RetrievebyId(id);
+
+                if (result != null)
+                {
+                    return NotFound("No se encontro");
+                }
+
+                return Ok(result);
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("RetrieveByUserCode")]
+        public ActionResult RetrivebyUserCode(string userCode)
+        {
+            try
+            {
+
+                var um = new UserManager();
+                var result = um.RetrieveByUserCode(userCode);
+
+                if (result == null)
+                {
+                    return NotFound("No se encontro");
+                }
+
+                return Ok(result);
+
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -49,14 +97,19 @@ namespace WebAPI1.Controllers
 
         [HttpGet]
         [Route("RetrieveByEmail")]
-        public ActionResult RetrieveByEmail()
+        public ActionResult RetrieveByEmail(string email)
         {
             try
             {
                 var um = new UserManager();
-                //var listResult = um.Retr
+                var result = um.RetrieveByEmail(email);
 
-                return Ok(User);
+                if (result == null)
+                {
+                    return NotFound("No se encontro");
+                }
+
+                return Ok(result);
 
             }
             catch (Exception ex)
@@ -71,7 +124,9 @@ namespace WebAPI1.Controllers
         {
             try
             {
-                return Ok(user);
+                var um = new UserManager();
+                um.Update(user);
+                return Ok("Usuario actualizado");
             }
             catch (Exception ex)
             {
@@ -82,11 +137,16 @@ namespace WebAPI1.Controllers
 
         [HttpDelete]
         [Route("Delete")]
-        public ActionResult Delete(User user)
+        public ActionResult Delete(int id)
         {
             try
             {
-                return Ok(user);
+
+                var um = new UserManager();
+                um.Delete(id);
+
+                return Ok("Usuario eliminado");
+
             }
             catch (Exception ex)
             {
