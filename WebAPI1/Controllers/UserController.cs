@@ -8,7 +8,7 @@ namespace WebAPI1.Controllers
 {
     //Indicamos que la direccion de este controlador
     //sera https://servidor:puerto/api/User
-    [Route("api/[controller]")]
+    [Route("api/[controller]")] //route
     [ApiController]
     public class UserController : ControllerBase
     {
