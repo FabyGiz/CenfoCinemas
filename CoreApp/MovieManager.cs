@@ -56,7 +56,7 @@ namespace CoreApp
             return mCrud.RetrieveAll<Movies>();
         }
 
-        public Movies RetrievebyId(int id)
+        public Movies RetrieveById(int id)
         {
             var mCrud = new MovieCrudFactory();
             var movies = mCrud.RetrieveById<Movies>(id);
@@ -76,10 +76,11 @@ namespace CoreApp
             }
         }
 
-        public void Delete (Movies movies)
+        public void Delete (int id)
         {
             try
             {
+                var movies = new Movies { Id = id };
                 var mCrud = new MovieCrudFactory();
                 mCrud.Delete(movies);
             }

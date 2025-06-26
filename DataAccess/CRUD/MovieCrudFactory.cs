@@ -32,7 +32,7 @@ namespace DataAccess.CRUD
             var movies = baseDTO as Movies;
 
             var sqlOperation = new SQLOperation() {ProcedureName = "DELETE_MOVIES_PR" };
-            sqlOperation.AddStringParameter("P_Title", movies.Title);
+            sqlOperation.AddIntParam("P_Id", movies.Id);
 
             _sqlDao.ExecuteProcedure(sqlOperation);
         }
@@ -99,7 +99,7 @@ namespace DataAccess.CRUD
         {
             var movies = baseDTO as Movies;
 
-            var sqlOperation = new SQLOperation() { ProcedureName = "UPD_MOVIES_PR" };
+            var sqlOperation = new SQLOperation() { ProcedureName = "UPDATE_MOVIES_PR" };
 
             sqlOperation.AddIntParam("P_Id", movies.Id);
             sqlOperation.AddStringParameter("P_Title", movies.Title);
@@ -120,8 +120,10 @@ namespace DataAccess.CRUD
                 //Updated = (DateTime)row["Updated"],
                 Title = (string)row["Title"],
                 Description = (string)row["Description"],
+                RelaseDate = (DateTime)row["ReleaseDate"],
+                Genre = (string)row["Genre"],
                 Director = (string)row["Director"],
-                RelaseDate = (DateTime)row["ReleaseDate"]
+               
 
             };
 
