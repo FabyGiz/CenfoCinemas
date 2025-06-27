@@ -14,6 +14,11 @@ function UsersViewController() {
 
     }
 
+    //metodo para la carga de una tabla
+    this.LoadTable = function () {
+
+    }
+
 }
 
 $(document).ready(function (){  //con $ llamamos a JQuery
