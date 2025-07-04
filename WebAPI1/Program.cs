@@ -8,11 +8,16 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+//CORS: Permitimos request de cualquier origen
+app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 // Configure the HTTP request pipeline.
+//if (app.Environment.IsDevelopment())
+//{
 
     app.UseSwagger();
     app.UseSwaggerUI();
+//}
 
 
 app.UseHttpsRedirection();
