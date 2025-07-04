@@ -56,9 +56,10 @@
         });
 
 
+    }
+}
 
-
-        $(document).ready(function () {
-            var vc = new UsersViewController();
-            vc.InitView();
-        })
+    $(document).ready(function () {
+        var vc = new UsersViewController();
+        vc.InitView();
+    });
