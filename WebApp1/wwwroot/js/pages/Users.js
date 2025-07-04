@@ -1,7 +1,3 @@
-﻿// js que maneja todo el comportamiento de la vista de los usuarios
-
-//definir una clase js, usando prototype
-
 function UsersViewController() {
 
     this.ViewName = "Users";
