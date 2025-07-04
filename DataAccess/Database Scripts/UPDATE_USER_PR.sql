@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE UPD_USER_PR
+﻿CREATE PROCEDURE UPDATE_USER_PR
 (
 	@P_Id int,
 	@P_UserCode nvarchar(30),
