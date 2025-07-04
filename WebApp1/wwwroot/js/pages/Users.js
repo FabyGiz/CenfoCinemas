@@ -8,15 +8,8 @@ function UsersViewController() {
     this.ApiEndPointName = "";
 
     //metodo constructor
-    this.IntView = function () {
-
-        console.log("User init view --> ok");
-
-    }
-
-    //metodo para la carga de una tabla
-    this.LoadTable = function () {
-
+    this.InitView = function () {
+        console.log("User init view --: ok");
     }
 
 }
