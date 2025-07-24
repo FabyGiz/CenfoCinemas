@@ -83,12 +83,12 @@
             $('#txtId').val(movieDTO.id);
             $('#txtTitle').val(movieDTO.title);
             $('#txtDescription').val(movieDTO.description);
-            $('#txtReleaseDate').val(movieDTO.releaseDate);
+            $('#txtReleaseDate').val(movieDTO.relaseDate);
             $('#txtGenre').val(movieDTO.genre);
             $('#txtDirector').val(movieDTO.director);
 
             //fecha tiene un formato
-            var onlyDate = movieDTO.releaseDate.split("T"); //se vuela el tiempo(hora, minutos, segundos))
+            var onlyDate = movieDTO.relaseDate.split("T"); //se vuela el tiempo(hora, minutos, segundos))
             $('#txtReleaseDate').val(onlyDate[0]); //solo se deja la fecha
 
 
@@ -111,7 +111,7 @@
         //valores capturados en pantalla
         movieDTO.title = $('#txtTitle').val();
         movieDTO.description = $('#txtDescription').val();
-        movieDTO.releaseDate = $('#txtReleaseDate').val();
+        movieDTO.relaseDate = $('#txtReleaseDate').val();
         movieDTO.genre = $('#txtGenre').val();
         movieDTO.director = $('#txtDirector').val();
       
@@ -136,7 +136,7 @@
         //valores capturados en pantalla
         movieDTO.title = $('#txtTitle').val();
         movieDTO.description = $('#txtDescription').val();
-        movieDTO.releaseDate = $('#txtReleaseDate').val();
+        movieDTO.relaseDate = $('#txtReleaseDate').val();
         movieDTO.genre = $('#txtGenre').val();
         movieDTO.director = $('#txtDirector').val();
        
@@ -160,16 +160,16 @@
         //valores capturados en pantalla
         movieDTO.title = $('#txtTitle').val();
         movieDTO.description = $('#txtDescription').val();
-        movieDTO.releaseDate = $('#txtReleaseDate').val();
+        movieDTO.relaseDate = $('#txtReleaseDate').val();
         movieDTO.genre = $('#txtGenre').val();
         movieDTO.director = $('#txtDirector').val();
 
 
         //Enviar la data al API
         var ca = new ControlActions();
-        var urlService = this.ApiEndPointName + "/Update";
+        var urlService = this.ApiEndPointName + "/Delete";
 
-        ca.PostToAPI(urlService, movieDTO, function () {
+        ca.DeleteToAPI(urlService, movieDTO, function () {
             //recargo la tabla
             $('#tblMovies').DataTable().ajax.reload();
         })
